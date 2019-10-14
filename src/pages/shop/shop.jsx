@@ -28,11 +28,17 @@ class ShopPage extends React.Component {
     const { updateCollections } = this.props;
     const collectionRef = firestore.collection("collections");
 
-    collectionRef.get().then(snapshot => {
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      updateCollections(collectionsMap);
-      this.setState({ loading: false });
-    });
+    fetch(
+      "https://firestore.googleapis.com/v1/projects/crown-db-7569b/databases/(default)/documents/collections"
+    )
+      .then(response => response.json())
+      .then(collections => console.log(collections));
+    // The values retrieved are nested by 8 or so levels. To get the app to work, we would need to write code to access the nested values before converting to collectionsMap and updating the collections.
+    // collectionRef.get().then(snapshot => {
+    //   const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+    //   updateCollections(collectionsMap);
+    //   this.setState({ loading: false });
+    // });
   }
 
   render() {
